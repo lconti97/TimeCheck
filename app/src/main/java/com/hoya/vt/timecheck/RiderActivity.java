@@ -72,13 +72,6 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-//        final twitter4j.Twitter twitter = new TwitterFactory().getInstance();
-//
-//        AccessToken token = new AccessToken("4862469189-nTQrHeWycUUmNzHcKypYlVUigMGevWzoHbGQEKp",
-//                "nMrqffb03wCcigJmPolqeilWsNutCOuBeMy7xx3m8IS5N", Long.parseLong("4862469189"));
-//
-
-
         // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
