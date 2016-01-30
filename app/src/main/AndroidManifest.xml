@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hoya.vt.timecheck">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,6 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="aceec4c9e6dc4edd6c3f43b93a88eb9d4526b65b" />
+
+        <activity android:name=".DriverActivity" />
+        <activity android:name=".RiderActivity"></activity>
     </application>
 
 </manifest>
