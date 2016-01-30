@@ -3,4 +3,9 @@
     <string name="title_activity_rider">Map</string>
     <string name="wait">Ask the driver to wait</string>
     <string name="too_far">You\'re too far away</string>
+    <string name="testing1">hi</string>
+    <string name="title_activity_settings_activitty">SettingsActivitty</string>
+    <string name="currentStatus">currentStatus</string>
+    <string name="busDriver">Bus Driver</string>
+    <string name="passenger">Passenger</string>
 </resources>

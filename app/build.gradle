@@ -42,6 +42,6 @@ dependencies {
     }
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.google.android.gms:play-services:8.4.0'
-
     compile files ('libs/twitter4j-core-4.0.4.jar')
+    compile 'com.android.support:design:23.1.1'
 }
