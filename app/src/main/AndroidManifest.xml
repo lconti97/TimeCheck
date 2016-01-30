@@ -23,7 +23,8 @@
             android:value="aceec4c9e6dc4edd6c3f43b93a88eb9d4526b65b" />
 
         <activity android:name=".DriverActivity" />
-        <activity android:name=".RiderActivity"></activity>
+        <activity android:name=".RiderActivity" />
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>
