@@ -17,8 +17,6 @@ public class MainActivity extends AppCompatActivity {
 
     Button busButton;
     Button passengerButton;
-    SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
     protected GlobalClass globals;
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
@@ -34,24 +32,23 @@ public class MainActivity extends AppCompatActivity {
 
         busButton = (Button) findViewById(R.id.busButtonID);
         passengerButton = (Button) findViewById(R.id.passengerButtonID);
-        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        editor = sharedPref.edit();
         globals = (GlobalClass) getApplication();
 
-        if (!sharedPref.contains("isBusDriver")) {
-            editor.putBoolean("isBusDriver", false);
-            editor.commit();
+
+        if (!globals.sharedPref.contains("isBusDriver")) {
+            globals.editor.putBoolean("isBusDriver", false);
+            globals.editor.commit();
         }
-        if (!sharedPref.contains("isPassenger")) {
-            editor.putBoolean("isPassenger", false);
-            editor.commit();
+        if (!globals.sharedPref.contains("isPassenger")) {
+            globals.editor.putBoolean("isPassenger", false);
+            globals.editor.commit();
         }
 
-        if(sharedPref.getBoolean("isBusDriver", false) == true) {
+        if(globals.sharedPref.getBoolean("isBusDriver", false) == true) {
             globals.setCurrentStatus("Bus Driver");
             startActivity(new Intent (this, DriverActivity.class));
         }
-        else if (sharedPref.getBoolean("isPassenger", false == true)) {
+        else if (globals.sharedPref.getBoolean("isPassenger", false == true)) {
             globals.setCurrentStatus("Passenger");
             startActivity(new Intent(this, RiderActivity.class));
         }
@@ -60,20 +57,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void launchDriverActivity(View view) {
-        editor.remove("isBusDriver");
-        editor.commit();
-        editor.putBoolean("isBusDriver", true);
-        editor.commit();
+        globals.editor.remove("isBusDriver");
+        globals.editor.commit();
+        globals.editor.remove("isPassenger");
+        globals.editor.commit();
+        globals.editor.putBoolean("isBusDriver", true);
+        globals.editor.commit();
         globals.setCurrentStatus("Bus Driver");
         Intent intent = new Intent (this, DriverActivity.class);
         startActivity(intent);
     }
 
     public void launchRiderActivity(View view) {
-        editor.remove("isPassenger");
-        editor.commit();
-        editor.putBoolean("isPassenger", true);
-        editor.commit();
+        globals.editor.remove("isPassenger");
+        globals.editor.commit();
+        globals.editor.remove("isBusDriver");
+        globals.editor.commit();
+        globals.editor.putBoolean("isPassenger", true);
+        globals.editor.commit();
         globals.setCurrentStatus("Passenger");
         Intent intent = new Intent (this, RiderActivity.class);
         startActivity(intent);
