@@ -24,6 +24,23 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.OAuthSigning;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterApiClient;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.models.Tweet;
+import com.twitter.sdk.android.core.services.StatusesService;
+
+import twitter4j.Status;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
+import twitter4j.auth.RequestToken;
 
 public class RiderActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -53,6 +70,15 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        AccessToken token = new AccessToken("4862469189-nTQrHeWycUUmNzHcKypYlVUigMGevWzoHbGQEKp",
+                "nMrqffb03wCcigJmPolqeilWsNutCOuBeMy7xx3m8IS5N", Long.parseLong("4862469189"));
+
+        final twitter4j.Twitter twitter = new TwitterFactory().getInstance();
+
+
+
         // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -67,6 +93,22 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 // TODO: inform the bus driver that the user is on their way
+
+                Log.d("CLICKED", "BUTTON CLICK");
+
+
+//                try {
+//                    Log.d("AWESOME", "IM AWESOME");
+//                    Status tweet = twitter.updateStatus("#RIDEALERT411");
+//                    Log.d("SUCCESS", "Successfully updated the status to [" + tweet.getText() + "].");
+//
+//                } catch (twitter4j.TwitterException e) {
+//
+//                    Log.d("FAIL", "DID NOT PRINT STATUS");
+//
+//                    e.printStackTrace();
+//                }
+
             }
         });
         mBusLoc1 = new Location("");
