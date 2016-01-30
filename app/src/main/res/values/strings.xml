@@ -1,7 +1,4 @@
 <resources>
     <string name="app_name">TimeCheck</string>
-    <bool name="isFirstTime">false</bool>
-    <bool name="isBusDriver">true</bool>
-    <bool name="isPassenger">false</bool>
     <string name="testing1">hi</string>
 </resources>

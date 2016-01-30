@@ -24,7 +24,6 @@
 
         <activity android:name=".DriverActivity" />
         <activity android:name=".RiderActivity" />
-        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>
