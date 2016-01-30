@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Button passengerButton;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
+    GlobalClass globals;
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private static final String TWITTER_KEY = "75YiknXrR89hvbnIsqK3HUipp";
@@ -47,9 +48,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(sharedPref.getBoolean("isBusDriver", false) == true) {
+            //globals.currentStatus = "Bus Driver";
             startActivity(new Intent (this, DriverActivity.class));
         }
         else if (sharedPref.getBoolean("isPassenger", false == true)) {
+            //globals.currentStatus = "Passenger";
             startActivity(new Intent(this, RiderActivity.class));
         }
 
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
         editor.putBoolean("isBusDriver", true);
         editor.commit();
+        globals.currentStatus = "Bus Driver";
         Intent intent = new Intent (this, DriverActivity.class);
         startActivity(intent);
     }
@@ -70,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
         editor.putBoolean("isPassenger", true);
         editor.commit();
+        globals.currentStatus = "Passenger";
         Intent intent = new Intent (this, RiderActivity.class);
         startActivity(intent);
     }

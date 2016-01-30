@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">TimeCheck</string>
     <string name="testing1">hi</string>
+    <string name="title_activity_settings_activitty">SettingsActivitty</string>
 </resources>
