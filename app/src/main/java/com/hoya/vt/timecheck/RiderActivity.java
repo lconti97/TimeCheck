@@ -14,6 +14,8 @@ import android.widget.Button;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,15 +32,14 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
-    private Location mLastLocation;
     private Button mWaitButton;
-    private boolean mMarkerClicked;
+    private int mTimeToBus;
+    private Location mBusLoc;
     private Marker mMarker;
 
     private static final double BUS_LAT = 38.906291;
     private static final double BUS_LONG = -77.074834;
     private static final double WALK_SPEED = 1.4;
-    private static final String TAG = "RiderActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,9 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
                 // TODO: inform the bus driver that the user is on their way
             }
         });
-        mMarkerClicked = false;
+        mBusLoc = new Location("");
+        mBusLoc.setLatitude(BUS_LAT);
+        mBusLoc.setLongitude(BUS_LONG);
     }
 
     protected void onStart() {
@@ -108,21 +111,16 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
-        if (mLastLocation != null) {
-            LatLng currLoc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+        if (lastLocation != null) {
+            LatLng currLoc = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currLoc, (float) 18));
+            calculateWalkTime(lastLocation, mBusLoc);
         }
-        // Calculate the travel time between the user and the bus
-        Location busLoc = new Location("");
-        busLoc.setLatitude(BUS_LAT);
-        busLoc.setLongitude(BUS_LONG);
-        int timeToBus = (int) (mLastLocation.distanceTo(busLoc) / WALK_SPEED);
-
         // Hard-code the bus marker
         mMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(BUS_LAT, BUS_LONG))
-                .title("Last ride home").snippet(timeToBus + " seconds away"));
+                .title("Last ride home").snippet(mTimeToBus + " seconds away"));
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -130,7 +128,28 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
                 return false;
             }
         });
-        mMap.setOnMapClickListener(null);
+
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, LocationRequest
+                .create().setInterval(5000),
+                new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.i("Tag", "Location changed");
+                calculateWalkTime(mBusLoc, location);
+            }
+        });
+    }
+
+    private void calculateWalkTime(Location a, Location b) {
+        mTimeToBus = (int) (a.distanceTo(b) / WALK_SPEED);
+        Log.i("Tag", "time to bus " + mTimeToBus);
+        if (mMarker != null) {
+            mMarker.setSnippet(mTimeToBus + " seconds away");
+            //Refresh the snippet
+            mMarker.hideInfoWindow();
+            mMarker.showInfoWindow();
+            Log.i("Tag", "setSnippet " + mTimeToBus);
+        }
     }
 
     @Override
