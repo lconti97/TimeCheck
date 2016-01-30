@@ -7,5 +7,18 @@ package com.hoya.vt.timecheck;
  */
 public class GlobalClass extends Application {
 
-    String currentStatus;
+    public String currentStatus;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
+    public String getCurrentStatus() {
+        return currentStatus;
+    }
+
+    public void setCurrentStatus(String newString) {
+        currentStatus = newString;
+    }
 }

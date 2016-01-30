@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Button passengerButton;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
-    GlobalClass globals;
+    protected GlobalClass globals;
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private static final String TWITTER_KEY = "75YiknXrR89hvbnIsqK3HUipp";
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         passengerButton = (Button) findViewById(R.id.passengerButtonID);
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         editor = sharedPref.edit();
-
+        globals = (GlobalClass) getApplication();
 
         if (!sharedPref.contains("isBusDriver")) {
             editor.putBoolean("isBusDriver", false);
@@ -48,11 +48,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(sharedPref.getBoolean("isBusDriver", false) == true) {
-            //globals.currentStatus = "Bus Driver";
+            globals.setCurrentStatus("Bus Driver");
             startActivity(new Intent (this, DriverActivity.class));
         }
         else if (sharedPref.getBoolean("isPassenger", false == true)) {
-            //globals.currentStatus = "Passenger";
+            globals.setCurrentStatus("Passenger");
             startActivity(new Intent(this, RiderActivity.class));
         }
 
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
         editor.putBoolean("isBusDriver", true);
         editor.commit();
-        globals.currentStatus = "Bus Driver";
+        globals.setCurrentStatus("Bus Driver");
         Intent intent = new Intent (this, DriverActivity.class);
         startActivity(intent);
     }
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
         editor.putBoolean("isPassenger", true);
         editor.commit();
-        globals.currentStatus = "Passenger";
+        globals.setCurrentStatus("Passenger");
         Intent intent = new Intent (this, RiderActivity.class);
         startActivity(intent);
     }

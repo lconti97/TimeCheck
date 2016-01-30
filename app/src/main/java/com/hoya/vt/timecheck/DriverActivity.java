@@ -1,8 +1,10 @@
 package com.hoya.vt.timecheck;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.twitter.sdk.android.tweetui.SearchTimeline;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
@@ -20,7 +22,6 @@ public class DriverActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver);
 
-
         SearchTimeline searchTimeline = new SearchTimeline.Builder()
                 .query(SEARCH_QUERY)
                 .build();
@@ -29,5 +30,10 @@ public class DriverActivity extends ListActivity {
                 .setTimeline(searchTimeline)
                 .build();
         setListAdapter(adapter);
+    }
+
+    public void launchSettings(View view) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 }
