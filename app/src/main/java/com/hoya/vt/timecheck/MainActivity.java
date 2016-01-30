@@ -1,5 +1,6 @@
 package com.hoya.vt.timecheck;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -24,5 +25,15 @@ public class MainActivity extends AppCompatActivity {
 
         Button busButton = (Button) findViewById(R.id.busButtonID);
         Button passengerButton = (Button) findViewById(R.id.passengerButtonID);
+    }
+
+    public void launchDriverActivity() {
+        Intent intent = new Intent (this, DriverActivity.class);
+        startActivity(intent);
+    }
+
+    public void launchRiderActivity() {
+        Intent intent = new Intent (this, RiderActivity.class);
+        startActivity(intent);
     }
 }

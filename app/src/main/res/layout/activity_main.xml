@@ -32,7 +32,8 @@
             android:layout_gravity="center_horizontal"
             android:textSize="50dp"
             android:text="Bus Driver"
-            android:id="@+id/busButtonID"/>
+            android:id="@+id/busButtonID"
+            android:onClick="lauchDriverActivty"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -40,7 +41,8 @@
             android:layout_gravity="center_horizontal"
             android:textSize="50dp"
             android:text="Passenger"
-            android:id="@+id/passengerButtonID"/>
+            android:id="@+id/passengerButtonID"
+            android:onClick="launchRiderActivity"/>
 
     </LinearLayout>
 
