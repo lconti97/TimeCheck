@@ -2,4 +2,7 @@
     <string name="app_name">TimeCheck</string>
     <string name="testing1">hi</string>
     <string name="title_activity_settings_activitty">SettingsActivitty</string>
+    <string name="currentStatus">currentStatus</string>
+    <string name="busDriver">Bus Driver</string>
+    <string name="passenger">Passenger</string>
 </resources>

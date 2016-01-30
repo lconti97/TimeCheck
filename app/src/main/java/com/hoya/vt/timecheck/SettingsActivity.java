@@ -26,7 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
         statusTextView = (TextView) findViewById(R.id.statusTextView);
         statusSwitch = (Switch) findViewById(R.id.statusSwitch);
 
-        if (globals.getCurrentStatus().equals("Bus Driver")) {
+        if (globals.sharedPref.getString("currentStatus", "empty").equals("Bus Driver")) {
             statusTextView.setText("Reset current status from Bus Driver");
         }
         else {
@@ -42,9 +42,10 @@ public class SettingsActivity extends AppCompatActivity {
     public void applyChanges(View view) {
 
         if (statusSwitch.isChecked()) {
-            globals.editor.remove("isBusDriver");
-            globals.editor.remove("isPassenger");
+            globals.editor.remove("currentStatus");
+            globals.editor.commit();
             globals.editor.clear();
+            globals.editor.commit();
             startActivity(new Intent(this, MainActivity.class));
         }
     }
