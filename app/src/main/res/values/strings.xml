@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TimeCheck</string>
+    <string name="title_activity_rider">Map</string>
 </resources>
