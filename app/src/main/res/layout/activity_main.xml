@@ -33,7 +33,7 @@
             android:textSize="50dp"
             android:text="Bus Driver"
             android:id="@+id/busButtonID"
-            android:onClick="lauchDriverActivty"/>
+            android:onClick="launchDriverActivity"/>
 
         <Button
             android:layout_width="wrap_content"
