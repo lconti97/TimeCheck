@@ -2,4 +2,5 @@
     <string name="app_name">TimeCheck</string>
     <string name="title_activity_rider">Map</string>
     <string name="wait">Ask the driver to wait</string>
+    <string name="too_far">You\'re too far away</string>
 </resources>
