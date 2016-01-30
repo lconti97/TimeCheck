@@ -89,15 +89,11 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
         }
         mWaitButton = (Button) findViewById(R.id.button_wait);
         mWaitButton.setVisibility(View.VISIBLE);
+
         mWaitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: inform the bus driver that the user is on their way
-
-                Log.d("CLICKED", "BUTTON CLICK");
-
-                TwitterAccessToken token = new TwitterAccessToken();
-                TwitterTest test = new TwitterTest();
 
 
 //                try {
