@@ -2,6 +2,8 @@ package com.hoya.vt.timecheck;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
+
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import io.fabric.sdk.android.Fabric;
@@ -19,5 +21,8 @@ public class MainActivity extends AppCompatActivity {
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
+
+        Button busButton = (Button) findViewById(R.id.busButtonID);
+        Button passengerButton = (Button) findViewById(R.id.passengerButtonID);
     }
 }
