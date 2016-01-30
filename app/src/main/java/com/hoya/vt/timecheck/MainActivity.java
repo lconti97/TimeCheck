@@ -39,10 +39,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (globals.sharedPref.getString(res.getString(R.string.currentStatus), "empty").equals("Bus Driver")) {
             startActivity(new Intent (this, DriverActivity.class));
+            finish();
         }
 
         if (globals.sharedPref.getString(res.getString(R.string.currentStatus), "empty").equals("Passenger")) {
             startActivity(new Intent(this, RiderActivity.class));
+            finish();
         }
 
         setContentView(R.layout.activity_main);
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         globals.editor.commit();
         Intent intent = new Intent (this, DriverActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void launchRiderActivity(View view) {
@@ -64,5 +67,6 @@ public class MainActivity extends AppCompatActivity {
         globals.editor.commit();
         Intent intent = new Intent (this, RiderActivity.class);
         startActivity(intent);
+        finish();
     }
 }
