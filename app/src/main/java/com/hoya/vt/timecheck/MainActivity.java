@@ -6,17 +6,19 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
 
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.tweetcomposer.Card;
+
 import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button busButton;
-    Button passengerButton;
+
     protected GlobalClass globals;
     Resources res;
 
@@ -31,10 +33,9 @@ public class MainActivity extends AppCompatActivity {
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
 
-        busButton = (Button) findViewById(R.id.busButtonID);
-        passengerButton = (Button) findViewById(R.id.passengerButtonID);
         globals = (GlobalClass) getApplication();
         res = getResources();
+        //cardView = (CardView)
 
 
         if (globals.sharedPref.getString(res.getString(R.string.currentStatus), "empty").equals("Bus Driver")) {
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_newmain);
     }
 
     public void launchDriverActivity(View view) {

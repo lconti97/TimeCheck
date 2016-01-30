@@ -19,7 +19,7 @@ public class DriverActivity extends ListActivity {
     private static final String TWITTER_KEY = "75YiknXrR89hvbnIsqK3HUipp";
     private static final String TWITTER_SECRET = "lmUpO2m5m2Rd08klkPWPey4TDQAV9fKpwz7l13yfXrTIvoftcA";
 
-    private static final String SEARCH_QUERY = "#Trump";
+    private static final String SEARCH_QUERY = "#PASSALERT411";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +57,6 @@ public class DriverActivity extends ListActivity {
         //test change
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_settings, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
