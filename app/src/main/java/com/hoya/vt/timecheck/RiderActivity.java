@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -19,6 +21,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class RiderActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -27,6 +30,8 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
+    private Button mWaitButton;
+    private boolean mMarkerClicked;
 
     private static final double BUS_LAT = 38.906291;
     private static final double BUS_LONG = -77.074834;
@@ -47,6 +52,9 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
                     .addApi(LocationServices.API)
                     .build();
         }
+        mWaitButton = (Button) findViewById(R.id.button_wait);
+        mWaitButton.setVisibility(View.INVISIBLE);
+        mMarkerClicked = false;
     }
 
     protected void onStart() {
@@ -118,6 +126,20 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
         }
         // Hard-code the bus marker
         mMap.addMarker(new MarkerOptions().position(new LatLng(BUS_LAT, BUS_LONG)).title("Last ride home"));
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                // Only works when there is only one marker to click
+                mMarkerClicked = !mMarkerClicked;
+                if (mMarkerClicked) {
+                    mWaitButton.setVisibility(View.VISIBLE);
+                }
+                else {
+                    mWaitButton.setVisibility(View.INVISIBLE);
+                }
+                return false;
+            }
+        });
     }
 
     @Override
