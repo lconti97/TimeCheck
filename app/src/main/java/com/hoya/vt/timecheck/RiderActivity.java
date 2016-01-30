@@ -62,6 +62,7 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
     private static final double BUS_LONG_2 = -77.073733;
     private static final double WALK_SPEED = 1.4;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,12 +72,11 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
-        AccessToken token = new AccessToken("4862469189-nTQrHeWycUUmNzHcKypYlVUigMGevWzoHbGQEKp",
-                "nMrqffb03wCcigJmPolqeilWsNutCOuBeMy7xx3m8IS5N", Long.parseLong("4862469189"));
-
-        final twitter4j.Twitter twitter = new TwitterFactory().getInstance();
-
+//        final twitter4j.Twitter twitter = new TwitterFactory().getInstance();
+//
+//        AccessToken token = new AccessToken("4862469189-nTQrHeWycUUmNzHcKypYlVUigMGevWzoHbGQEKp",
+//                "nMrqffb03wCcigJmPolqeilWsNutCOuBeMy7xx3m8IS5N", Long.parseLong("4862469189"));
+//
 
 
         // Create an instance of GoogleAPIClient.
@@ -88,13 +88,16 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
                     .build();
         }
         mWaitButton = (Button) findViewById(R.id.button_wait);
-        mWaitButton.setVisibility(View.INVISIBLE);
+        mWaitButton.setVisibility(View.VISIBLE);
         mWaitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: inform the bus driver that the user is on their way
 
                 Log.d("CLICKED", "BUTTON CLICK");
+
+                TwitterAccessToken token = new TwitterAccessToken();
+                TwitterTest test = new TwitterTest();
 
 
 //                try {
