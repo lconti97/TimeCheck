@@ -1,6 +1,11 @@
 # TimeCheck
 A bus-tracking app designed for HoyaHacks 2016
 
+Credits:
+Akshay Goel (akshay15@vt.edu)
+Lucas Conti (lconti97@vt.edu)
+Dagmawi Yeshiwas (dagmawi@vt.edu)
+
 Bot Credentials:
 Name: Bus Bot
 email: commbot2016@gmail.com
