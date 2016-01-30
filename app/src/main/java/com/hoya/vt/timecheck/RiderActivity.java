@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -32,9 +33,12 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
     private Location mLastLocation;
     private Button mWaitButton;
     private boolean mMarkerClicked;
+    private Marker mMarker;
 
     private static final double BUS_LAT = 38.906291;
     private static final double BUS_LONG = -77.074834;
+    private static final double WALK_SPEED = 1.4;
+    private static final String TAG = "RiderActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,12 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
         }
         mWaitButton = (Button) findViewById(R.id.button_wait);
         mWaitButton.setVisibility(View.INVISIBLE);
+        mWaitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: inform the bus driver that the user is on their way
+            }
+        });
         mMarkerClicked = false;
     }
 
@@ -80,42 +90,22 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         mMap.getUiSettings().setMapToolbarEnabled(false);
-        // Appease the compiler
+        // Verify permissions
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         mMap.setMyLocationEnabled(true);
-
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        // More appeasing
+        // Verify permissions
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
@@ -124,22 +114,23 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
             LatLng currLoc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currLoc, (float) 18));
         }
+        // Calculate the travel time between the user and the bus
+        Location busLoc = new Location("");
+        busLoc.setLatitude(BUS_LAT);
+        busLoc.setLongitude(BUS_LONG);
+        int timeToBus = (int) (mLastLocation.distanceTo(busLoc) / WALK_SPEED);
+
         // Hard-code the bus marker
-        mMap.addMarker(new MarkerOptions().position(new LatLng(BUS_LAT, BUS_LONG)).title("Last ride home"));
+        mMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(BUS_LAT, BUS_LONG))
+                .title("Last ride home").snippet(timeToBus + " seconds away"));
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                // Only works when there is only one marker to click
-                mMarkerClicked = !mMarkerClicked;
-                if (mMarkerClicked) {
-                    mWaitButton.setVisibility(View.VISIBLE);
-                }
-                else {
-                    mWaitButton.setVisibility(View.INVISIBLE);
-                }
+                mWaitButton.setVisibility(View.VISIBLE);
                 return false;
             }
         });
+        mMap.setOnMapClickListener(null);
     }
 
     @Override
