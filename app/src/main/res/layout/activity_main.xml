@@ -7,14 +7,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.hoya.vt.timecheck.MainActivity">
+    tools:context="com.hoya.vt.timecheck.MainActivity"
+    android:background="@color/LightPurple">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:id="@+id/linearLayout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,19 +29,28 @@
 
         <Button
             android:layout_marginTop="50dp"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textSize="50dp"
+            android:textSize="40dp"
             android:text="Bus Driver"
             android:id="@+id/busButtonID"
             android:onClick="launchDriverActivity"/>
 
-        <Button
+        <TextView
             android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Or"
+            android:textSize="30dp"/>
+
+        <Button
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textSize="50dp"
+            android:textSize="40dp"
             android:text="Passenger"
             android:id="@+id/passengerButtonID"
             android:onClick="launchRiderActivity"/>
