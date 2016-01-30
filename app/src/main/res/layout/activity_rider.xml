@@ -8,7 +8,12 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/wait"/>
+        android:text="@string/wait"
+        android:padding="24dp"
+        android:backgroundTint="@color/colorPrimaryLight"
+        android:layout_marginBottom="-8dp"
+        android:layout_marginLeft="-8dp"
+        android:layout_marginRight="-8dp"/>
 
     <fragment
         xmlns:tools="http://schemas.android.com/tools"

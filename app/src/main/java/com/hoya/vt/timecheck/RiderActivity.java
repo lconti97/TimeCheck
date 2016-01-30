@@ -122,7 +122,7 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
                 mGoogleApiClient);
         if (mLastLocation != null) {
             LatLng currLoc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currLoc, (float) 2.0));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currLoc, (float) 18));
         }
         // Hard-code the bus marker
         mMap.addMarker(new MarkerOptions().position(new LatLng(BUS_LAT, BUS_LONG)).title("Last ride home"));
