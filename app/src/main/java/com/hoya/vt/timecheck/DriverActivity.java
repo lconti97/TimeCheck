@@ -54,6 +54,7 @@ public class DriverActivity extends ListActivity {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
         finish();
+        //test change
     }
 
     @Override
