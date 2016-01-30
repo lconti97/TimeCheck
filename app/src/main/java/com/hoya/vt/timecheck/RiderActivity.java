@@ -29,6 +29,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
         import android.os.Bundle;
         import android.view.View;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
+
 public class RiderActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -48,6 +57,11 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
     private static final double BUS_LAT_2 = 38.906726;
     private static final double BUS_LONG_2 = -77.073733;
     private static final double WALK_SPEED = 1.4;
+
+    private static final String ACCESS_TOKEN = "4862469189-nTQrHeWycUUmNzHcKypYlVUigMGevWzoHbGQEKp";
+    private static final String ACCESS_TOKEN_SECRET = "nMrqffb03wCcigJmPolqeilWsNutCOuBeMy7xx3m8IS5N";
+    private static final String CONSUMER_KEY = "WKxzxQpFZNtbU4ti0N0Sxigbk";
+    private static final String CONSUMER_SECRET = "P8ySJD1tpC6Mh8KfXvhppz2ioj8uuBs8Mrow2KDIaNr6ATdgu9";
 
 
     @Override
@@ -74,19 +88,7 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 // TODO: inform the bus driver that the user is on their way
-
-
-//                try {
-//                    Log.d("AWESOME", "IM AWESOME");
-//                    Status tweet = twitter.updateStatus("#RIDEALERT411");
-//                    Log.d("SUCCESS", "Successfully updated the status to [" + tweet.getText() + "].");
-//
-//                } catch (twitter4j.TwitterException e) {
-//
-//                    Log.d("FAIL", "DID NOT PRINT STATUS");
-//
-//                    e.printStackTrace();
-//                }
+                tweet();
 
             }
         });
@@ -96,6 +98,29 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
         mBusLoc2 = new Location("");
         mBusLoc2.setLatitude(BUS_LAT_2);
         mBusLoc2.setLongitude(BUS_LONG_2);
+    }
+
+    public void tweet() {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        String currentDateandTime = sdf.format(new Date());
+
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true)
+                .setOAuthConsumerKey(CONSUMER_KEY)
+                .setOAuthConsumerSecret(CONSUMER_SECRET)
+                .setOAuthAccessToken(ACCESS_TOKEN)
+                .setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET);
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        Twitter twitter = tf.getInstance();
+        Status status;
+        try {
+            status = twitter.updateStatus(currentDateandTime + " #PASSENGERALERT411 Passenger Arriving");
+            Log.d("Updated the status to" + status.getText(), "TRUE");
+        } catch (TwitterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     protected void onStart() {
