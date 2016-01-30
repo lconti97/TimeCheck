@@ -28,6 +28,9 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
 
+    private static final double BUS_LAT = 38.906291;
+    private static final double BUS_LONG = -77.074834;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,10 +115,9 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
         if (mLastLocation != null) {
             LatLng currLoc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currLoc, (float) 2.0));
-//            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.builder()
-//                    .target(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()))
-//                    .build()));
         }
+        // Hard-code the bus marker
+        mMap.addMarker(new MarkerOptions().position(new LatLng(BUS_LAT, BUS_LONG)).title("Last ride home"));
     }
 
     @Override
