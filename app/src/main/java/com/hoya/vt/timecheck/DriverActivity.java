@@ -19,7 +19,7 @@ public class DriverActivity extends ListActivity {
     private static final String TWITTER_KEY = "75YiknXrR89hvbnIsqK3HUipp";
     private static final String TWITTER_SECRET = "lmUpO2m5m2Rd08klkPWPey4TDQAV9fKpwz7l13yfXrTIvoftcA";
 
-    private static final String SEARCH_QUERY = "#PASSALERT411";
+    private static final String SEARCH_QUERY = "#PASSENGERALERT411";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

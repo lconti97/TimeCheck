@@ -1,0 +1,23 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=0E:DE:87:03:18:44:7E:DE:42:34:08:1D:72:D2:77:3B:0C:AD:32:AE%3Bcom.hoya.vt.timecheck
+
+    You can also add your credentials to an existing key, using this line:
+    0E:DE:87:03:18:44:7E:DE:42:34:08:1D:72:D2:77:3B:0C:AD:32:AE;com.hoya.vt.timecheck
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+
+    Lucas' key: AIzaSyA2XljFWwotc8sRt2hP2Jn9_wItHr2TqYc
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyBpPrdDAn4Sh3LMt7UXWdG80hcQaaiiqJE
+    </string>
+</resources>
