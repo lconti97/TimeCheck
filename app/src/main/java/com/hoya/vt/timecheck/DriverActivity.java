@@ -39,6 +39,8 @@ public class DriverActivity extends ListActivity {
         });
 
         toolbar.inflateMenu(R.menu.menu_settings);
+        toolbar.setTitle("Passenger Wait Requests");
+        toolbar.setLogo(R.drawable.driver_icon);
 
         SearchTimeline searchTimeline = new SearchTimeline.Builder()
                 .query(SEARCH_QUERY)
