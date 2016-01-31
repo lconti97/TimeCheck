@@ -2,6 +2,7 @@ package com.hoya.vt.timecheck;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -76,13 +77,33 @@ public class DriverActivity extends ListActivity {
                 });
             }
         });
+
+        new CountDownTimer(100000000, 5000) {
+
+            public void onTick(long millisUntilFinished) {
+                adapter.refresh(new Callback<TimelineResult<Tweet>>() {
+                    @Override
+                    public void success(Result<TimelineResult<Tweet>> result) {
+                        swipeLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void failure(com.twitter.sdk.android.core.TwitterException e) {
+
+                    }
+                });
+            }
+
+            public void onFinish() {
+
+            }
+        }.start();
     }
 
     public void launchSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
         finish();
-        //test change
     }
 
 
