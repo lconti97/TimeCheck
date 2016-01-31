@@ -32,6 +32,12 @@
         android:gravity="center_horizontal|center_vertical"
         android:text="No Tweets"/>
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <ListView android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -39,4 +45,6 @@
         android:divider="#e1e8ed"
         android:dividerHeight="1dp"
         android:drawSelectorOnTop="false"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

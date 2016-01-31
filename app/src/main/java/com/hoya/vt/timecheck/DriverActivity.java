@@ -2,6 +2,7 @@ package com.hoya.vt.timecheck;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -9,8 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.tweetui.SearchTimeline;
+import com.twitter.sdk.android.tweetui.TimelineResult;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
+
+import twitter4j.TwitterException;
 
 public class DriverActivity extends ListActivity {
 
@@ -42,6 +49,7 @@ public class DriverActivity extends ListActivity {
         toolbar.setTitle("Passenger Wait Requests");
         toolbar.setLogo(R.drawable.driver_icon);
 
+        final SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         SearchTimeline searchTimeline = new SearchTimeline.Builder()
                 .query(SEARCH_QUERY)
                 .build();
@@ -50,6 +58,24 @@ public class DriverActivity extends ListActivity {
                 .setTimeline(searchTimeline)
                 .build();
         setListAdapter(adapter);
+
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeLayout.setRefreshing(true);
+                adapter.refresh(new Callback<TimelineResult<Tweet>>() {
+                    @Override
+                    public void success(Result<TimelineResult<Tweet>> result) {
+                        swipeLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void failure(com.twitter.sdk.android.core.TwitterException e) {
+
+                    }
+                });
+            }
+        });
     }
 
     public void launchSettings() {
