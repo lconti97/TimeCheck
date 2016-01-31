@@ -78,7 +78,7 @@ public class DriverActivity extends ListActivity {
             }
         });
 
-        new CountDownTimer(100000000, 5000) {
+        new CountDownTimer(100000000, 10000) {
 
             public void onTick(long millisUntilFinished) {
                 adapter.refresh(new Callback<TimelineResult<Tweet>>() {
