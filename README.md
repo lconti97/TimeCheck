@@ -1,3 +1,4 @@
+![alt tag](https://linx.li/selif/zz8nr59j.jpg)
 # TimeCheck
 A bus-tracking app designed for HoyaHacks 2016
 
