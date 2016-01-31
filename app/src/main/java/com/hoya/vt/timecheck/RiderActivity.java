@@ -24,11 +24,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-        import android.content.Intent;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.view.View;
+
+import android.content.Intent;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,19 +42,14 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Button mWaitButton;
-    private int timeToBus1;
-    private int timeToBus2;
-    private Location mBusLoc1;
-    private Location mBusLoc2;
-    private Marker mMarker1;
-    private Marker mMarker2;
-    private Marker currMarker;
+    private Marker mCurrMarker;
+    private Bus mBus1;
+    private Bus mBus2;
 
     private static final double BUS_LAT_1 = 38.906291;
-    private static final double BUS_LONG_1 = -77.074834;
-    private static final double BUS_LAT_2 = 38.906726;
-    private static final double BUS_LONG_2 = -77.073733;
-    private static final double WALK_SPEED = 1.4;
+    private static final double BUS_LNG_1 = -77.074834;
+    private static final double BUS_LAT_2 = 38.906728;
+    private static final double BUS_LNG_2 = -77.073733;
 
     private static final String ACCESS_TOKEN = "4862469189-nTQrHeWycUUmNzHcKypYlVUigMGevWzoHbGQEKp";
     private static final String ACCESS_TOKEN_SECRET = "nMrqffb03wCcigJmPolqeilWsNutCOuBeMy7xx3m8IS5N";
@@ -90,22 +82,17 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
                     .build();
         }
         mWaitButton = (Button) findViewById(R.id.button_wait);
-        mWaitButton.setVisibility(View.VISIBLE);
+        mWaitButton.setVisibility(View.INVISIBLE);
 
         mWaitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: inform the bus driver that the user is on their way
+                // TODO: check if the user is close enough
                 tweet();
-
             }
         });
-        mBusLoc1 = new Location("");
-        mBusLoc1.setLatitude(BUS_LAT_1);
-        mBusLoc1.setLongitude(BUS_LONG_1);
-        mBusLoc2 = new Location("");
-        mBusLoc2.setLatitude(BUS_LAT_2);
-        mBusLoc2.setLongitude(BUS_LONG_2);
+        mBus1 = new Bus("Last ride home", BUS_LAT_1, BUS_LNG_1);
+        mBus2 = new Bus("The hype train", BUS_LAT_2, BUS_LNG_2);
     }
 
     public void tweet() {
@@ -179,47 +166,56 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currLoc, (float) 18));
         }
         // Hard-code the bus markers
-        mMarker1 = mMap.addMarker(new MarkerOptions().position(new LatLng(BUS_LAT_1, BUS_LONG_1))
-                .title("Last ride home"));
-        mMarker2 = mMap.addMarker(new MarkerOptions().position(new LatLng(BUS_LAT_2, BUS_LONG_2))
-                .title("The hype train"));
+        mBus1.placeMarker(mMap);
+        mBus2.placeMarker(mMap);
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                currMarker = marker;
+                mCurrMarker = marker;
+                Log.i("Tag", "New marker id: " + mCurrMarker);
                 mWaitButton.setVisibility(View.VISIBLE);
                 return false;
             }
         });
 
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, LocationRequest
-                .create().setInterval(5000),
+                .create().setInterval(1000),
                 new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                timeToBus1 = calculateWalkTime(location, mBusLoc1);
-                timeToBus2 = calculateWalkTime(location, mBusLoc2);
-                mMarker1.setSnippet(timeToBus1 + " seconds away");
-                mMarker2.setSnippet(timeToBus2 + " seconds away");
-                if (currMarker != null) {
-                    currMarker.hideInfoWindow();
-                    currMarker.showInfoWindow();
+                int time1 = mBus1.calcWalkTime(location);
+                int time2 = mBus2.calcWalkTime(location);
+                if (mCurrMarker!=null) {
+                    Log.i("Tag", "Still " + mCurrMarker);
+                    Log.i("Tag", "Bus1 " + mBus1.getMarker());
                 }
-                if ((currMarker == mMarker1 && timeToBus1 > 60) || (currMarker == mMarker2
-                        && timeToBus2 > 60)) {
-                    mWaitButton.setEnabled(false);
-                    mWaitButton.setText(R.string.too_far);
+                if (mCurrMarker.equals(mBus1.getMarker())) {
+                    Log.i("Tag", "Time1 = " + time1);
+                    if (time1 > 60) {
+                        mWaitButton.setEnabled(false);
+                        mWaitButton.setText("Too far away");
+                    }
+                    else {
+                        mWaitButton.setEnabled(true);
+                        mWaitButton.setText("Ask " + mBus1.getTitle() + " to wait");
+                    }
                 }
-                else {
-                    mWaitButton.setEnabled(true);
-                    mWaitButton.setText(R.string.wait);
+                else if (mCurrMarker.equals(mBus2.getMarker())) {
+                    if (time2 > 60) {
+                        mWaitButton.setEnabled(false);
+                        mWaitButton.setText("Too far away");
+                    }
+                    else {
+                        mWaitButton.setEnabled(true);
+                        mWaitButton.setText("Ask " + mBus2.getTitle() + " to wait");
+                    }
+                }
+                if (mCurrMarker != null) {
+                    mCurrMarker.hideInfoWindow();
+                    mCurrMarker.showInfoWindow();
                 }
             }
         });
-    }
-
-    private int calculateWalkTime(Location a, Location b) {
-        return (int) (a.distanceTo(b) / WALK_SPEED);
     }
 
     @Override
