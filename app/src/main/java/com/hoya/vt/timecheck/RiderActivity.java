@@ -183,6 +183,9 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
                 new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                if (mCurrMarker == null) {
+                    return;
+                }
                 int time1 = mBus1.calcWalkTime(location);
                 int time2 = mBus2.calcWalkTime(location);
                 if (mCurrMarker!=null) {
