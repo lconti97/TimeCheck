@@ -13,7 +13,7 @@
         android:backgroundTint="@color/colorPrimaryLight"
         android:layout_marginBottom="-8dp"
         android:layout_marginLeft="-8dp"
-        android:layout_marginRight="-8dp"/>
+        android:layout_marginRight="-8dp" />
 
     <fragment
         xmlns:tools="http://schemas.android.com/tools"

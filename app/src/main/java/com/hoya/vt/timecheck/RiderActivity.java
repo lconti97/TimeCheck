@@ -48,8 +48,8 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
 
     private static final double BUS_LAT_1 = 38.906291;
     private static final double BUS_LNG_1 = -77.074834;
-    private static final double BUS_LAT_2 = 38.906728;
-    private static final double BUS_LNG_2 = -77.073733;
+    private static final double BUS_LAT_2 = 38.907524;
+    private static final double BUS_LNG_2 = -77.073914;
 
     private static final String ACCESS_TOKEN = "4862469189-nTQrHeWycUUmNzHcKypYlVUigMGevWzoHbGQEKp";
     private static final String ACCESS_TOKEN_SECRET = "nMrqffb03wCcigJmPolqeilWsNutCOuBeMy7xx3m8IS5N";
@@ -174,6 +174,12 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
                 mCurrMarker = marker;
                 Log.i("Tag", "New marker id: " + mCurrMarker);
                 mWaitButton.setVisibility(View.VISIBLE);
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+                updateButton(LocationServices.FusedLocationApi.getLastLocation((mGoogleApiClient)));
                 return false;
             }
         });
@@ -183,42 +189,46 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
                 new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                if (mCurrMarker == null) {
-                    return;
-                }
-                int time1 = mBus1.calcWalkTime(location);
-                int time2 = mBus2.calcWalkTime(location);
-                if (mCurrMarker!=null) {
-                    Log.i("Tag", "Still " + mCurrMarker);
-                    Log.i("Tag", "Bus1 " + mBus1.getMarker());
-                }
-                if (mCurrMarker.equals(mBus1.getMarker())) {
-                    Log.i("Tag", "Time1 = " + time1);
-                    if (time1 > 60) {
-                        mWaitButton.setEnabled(false);
-                        mWaitButton.setText("Too far away");
-                    }
-                    else {
-                        mWaitButton.setEnabled(true);
-                        mWaitButton.setText("Ask " + mBus1.getTitle() + " to wait");
-                    }
-                }
-                else if (mCurrMarker.equals(mBus2.getMarker())) {
-                    if (time2 > 60) {
-                        mWaitButton.setEnabled(false);
-                        mWaitButton.setText("Too far away");
-                    }
-                    else {
-                        mWaitButton.setEnabled(true);
-                        mWaitButton.setText("Ask " + mBus2.getTitle() + " to wait");
-                    }
-                }
+                updateButton(location);
                 if (mCurrMarker != null) {
                     mCurrMarker.hideInfoWindow();
                     mCurrMarker.showInfoWindow();
                 }
             }
         });
+    }
+
+    public void updateButton(Location location) {
+        if (mCurrMarker == null) {
+            return;
+        }
+        int time1 = mBus1.calcWalkTime(location);
+        int time2 = mBus2.calcWalkTime(location);
+        if (mCurrMarker!=null) {
+            Log.i("Tag", "Still " + mCurrMarker);
+            Log.i("Tag", "Bus1 " + mBus1.getMarker());
+        }
+        if (mCurrMarker.equals(mBus1.getMarker())) {
+            Log.i("Tag", "Time1 = " + time1);
+            if (time1 > 60) {
+                mWaitButton.setEnabled(false);
+                mWaitButton.setText("Too far away");
+            }
+            else {
+                mWaitButton.setEnabled(true);
+                mWaitButton.setText("Ask " + mBus1.getTitle() + " to wait");
+            }
+        }
+        else if (mCurrMarker.equals(mBus2.getMarker())) {
+            if (time2 > 60) {
+                mWaitButton.setEnabled(false);
+                mWaitButton.setText("Too far away");
+            }
+            else {
+                mWaitButton.setEnabled(true);
+                mWaitButton.setText("Ask " + mBus2.getTitle() + " to wait");
+            }
+        }
     }
 
     @Override
