@@ -237,4 +237,10 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
     }
 
 
+    //DEBUG PURPOSES
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, SettingsActivity.class));
+    }
 }
