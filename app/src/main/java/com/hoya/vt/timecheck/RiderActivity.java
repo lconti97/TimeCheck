@@ -9,7 +9,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -45,6 +47,7 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
     private Marker mCurrMarker;
     private Bus mBus1;
     private Bus mBus2;
+    private Toolbar toolbar;
 
     private static final double BUS_LAT_1 = 38.906291;
     private static final double BUS_LNG_1 = -77.074834;
@@ -61,6 +64,22 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rider);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+
+        // Set an OnMenuItemClickListener to handle menu item clicks
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                onOptionsItemSelected(item);
+                return true;
+            }
+        });
+
+        toolbar.inflateMenu(R.menu.menu_settings);
+        toolbar.setTitle("Find a bus!");
+        toolbar.setLogo(R.drawable.rider_icon);
 
         if (android.os.Build.VERSION.SDK_INT > 11) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -93,6 +112,30 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
         });
         mBus1 = new Bus("Last ride home", BUS_LAT_1, BUS_LNG_1);
         mBus2 = new Bus("The hype train", BUS_LAT_2, BUS_LNG_2);
+    }
+
+    public void launchSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        finish();
+        //test change
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.settingsMenu) {
+            launchSettings();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void tweet() {
