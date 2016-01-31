@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 import android.content.Intent;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,6 +49,7 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
     private Bus mBus1;
     private Bus mBus2;
     private Toolbar toolbar;
+    private boolean canTweet;
 
     private static final double BUS_LAT_1 = 38.906291;
     private static final double BUS_LNG_1 = -77.074834;
@@ -63,6 +65,7 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        canTweet = false;
         setContentView(R.layout.activity_rider);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -106,8 +109,11 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
         mWaitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: check if the user is close enough
-                tweet();
+                if (canTweet) {
+                    tweet();
+                }
+                else Toast.makeText(getApplicationContext(),
+                        "You must be within 60 seconds of the bus.", Toast.LENGTH_LONG).show();
             }
         });
         mBus1 = new Bus("Last ride home", BUS_LAT_1, BUS_LNG_1);
@@ -154,7 +160,7 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
         Status status;
         try {
             status = twitter.updateStatus(currentDateandTime + " #PASSENGERALERT411 Passenger Arriving");
-            Log.d("Updated the status to" + status.getText(), "TRUE");
+            Toast.makeText(getApplicationContext(), "Driver alerted.", Toast.LENGTH_LONG).show();
         } catch (TwitterException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -254,22 +260,22 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
         if (mCurrMarker.equals(mBus1.getMarker())) {
             Log.i("Tag", "Time1 = " + time1);
             if (time1 > 60) {
-                mWaitButton.setEnabled(false);
                 mWaitButton.setText("Too far away");
+                canTweet = false;
             }
             else {
-                mWaitButton.setEnabled(true);
                 mWaitButton.setText("Ask " + mBus1.getTitle() + " to wait");
+                canTweet = true;
             }
         }
         else if (mCurrMarker.equals(mBus2.getMarker())) {
             if (time2 > 60) {
-                mWaitButton.setEnabled(false);
                 mWaitButton.setText("Too far away");
+                canTweet = false;
             }
             else {
-                mWaitButton.setEnabled(true);
                 mWaitButton.setText("Ask " + mBus2.getTitle() + " to wait");
+                canTweet = true;
             }
         }
     }
