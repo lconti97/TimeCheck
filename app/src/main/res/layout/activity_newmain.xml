@@ -48,6 +48,7 @@ android:layout_height="match_parent">
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/card1_text"
+                    android:textSize="20dp"
                     android:layout_gravity="center_vertical"
                     android:text="Bus Driver"/>
 
@@ -83,6 +84,7 @@ android:layout_height="match_parent">
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/card2_text"
+                    android:textSize="20dp"
                     android:layout_gravity="center_vertical"
                     android:text="Passenger"/>
 
