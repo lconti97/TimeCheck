@@ -7,11 +7,6 @@ Akshay Goel (akshay15@vt.edu)
 Lucas Conti (lconti97@vt.edu)
 Dagmawi Yeshiwas (dagmawi@vt.edu)
 
-Bot Credentials:
-Name: Bus Bot
-email: commbot2016@gmail.com
-passwords: HoyaHacks2016
-
 MainActivity TODO: 
 1. Prompt user to register as a driver or rider
 2. Open the corresponding activity (driver or rider view)
